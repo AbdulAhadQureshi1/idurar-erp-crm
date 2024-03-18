@@ -13,6 +13,7 @@ export default function RegisterForm({ userLocation }) {
       <Form.Item
         name="name"
         label={translate('name')}
+        placeholder={translate('name')}
         rules={[
           {
             required: true,

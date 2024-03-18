@@ -7,13 +7,13 @@ import useLanguage from '@/locale/useLanguage';
 
 import { Form, Button } from 'antd';
 
-import { login } from '@/redux/auth/actions';
+import { register } from '@/redux/auth/actions';
 import { selectAuth } from '@/redux/auth/selectors';
-import LoginForm from '@/forms/LoginForm';
 import Loading from '@/components/Loading';
 import AuthModule from '@/modules/AuthModule';
+import RegisterForm from '@/forms/RegisterForm';
 
-const LoginPage = () => {
+const RegisterPage = () => {
   const translate = useLanguage();
   const { isLoading, isSuccess } = useSelector(selectAuth);
   const navigate = useNavigate();
@@ -21,7 +21,7 @@ const LoginPage = () => {
 
   const dispatch = useDispatch();
   const onFinish = (values) => {
-    dispatch(login({ loginData: values }));
+    dispatch(register({ registerData: values }));
   };
 
   useEffect(() => {
@@ -40,7 +40,7 @@ const LoginPage = () => {
           }}
           onFinish={onFinish}
         >
-          <LoginForm />
+          <RegisterForm />
           <Form.Item>
             <Button
               type="primary"
@@ -49,16 +49,16 @@ const LoginPage = () => {
               loading={isLoading}
               size="large"
             >
-              {translate('Log in')}
+              {translate('Sign up')}
             </Button>
           </Form.Item>
-          <Link to={'/register'} >Create account here.</Link>
+          <Link to={'/login'} >Already have an account?</Link>
         </Form>
       </Loading>
     );
   };
 
-  return <AuthModule authContent={<FormContainer />} AUTH_TITLE="Sign in" />;
+  return <AuthModule authContent={<FormContainer />} AUTH_TITLE="Sign up" />;
 };
 
-export default LoginPage;
+export default RegisterPage;

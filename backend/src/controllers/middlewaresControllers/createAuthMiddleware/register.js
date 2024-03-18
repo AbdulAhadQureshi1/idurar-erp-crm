@@ -12,10 +12,10 @@ const { useAppSettings } = require('@/settings');
 
 const authUser = require('./authUser');
 
-const login = async (req, res, { userModel }) => {
+const register = async (req, res, { userModel }) => {
   const UserPasswordModel = mongoose.model(userModel + 'Password');
   const UserModel = mongoose.model(userModel);
-  const { email, password } = req.body;
+  const { name, email, password, country } = req.body;
 
   // validate
   const objectSchema = Joi.object({
@@ -36,27 +36,28 @@ const login = async (req, res, { userModel }) => {
     });
   }
 
-  const user = await UserModel.findOne({ email: email, removed: false });
+  const userExists = await UserModel.findOne({ email: email, removed: false });
 
-  // console.log(user);
-  if (!user)
-    return res.status(404).json({
-      success: false,
-      result: null,
-      message: 'No account with this email has been registered.',
-    });
-
-  const databasePassword = await UserPasswordModel.findOne({ user: user._id, removed: false });
-
-  if (!user.enabled)
+  if (userExists)
     return res.status(409).json({
       success: false,
       result: null,
-      message: 'Your account is disabled, contact your account adminstrator',
+      message: 'An account with this email already exists.',
     });
 
-  //  authUser if your has correct password
-  authUser(req, res, { user, databasePassword, password, UserPasswordModel });
+  const user = new UserModel({ name, email });
+  await user.save();
+
+  const bcryptSalt = bcrypt.genSaltSync(10);
+  const hashedPassword = bcrypt.hashSync(password, bcryptSalt);
+  const userPassword = new UserPasswordModel({ user: user._id, password: hashedPassword, salt: bcryptSalt });
+  await userPassword.save();
+
+  return res.status(201).json({
+    success: true,
+    result: user,
+    message: 'User registered successfully.',
+  });
 };
 
-module.exports = login
+module.exports = register;
