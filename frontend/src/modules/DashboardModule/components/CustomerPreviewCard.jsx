@@ -18,7 +18,7 @@ export default function CustomerPreviewCard({
             justifyContent: "center",
           }}
         >
-          <h3 style={{ color: "#22075e", marginBottom: 40, marginTop: 15, fontSize: "large" }}>
+          <h3 style={{ color: "#61010c", marginBottom: 40, marginTop: 15, fontSize: "large" }}>
             {translate("Customers")}
           </h3>
 

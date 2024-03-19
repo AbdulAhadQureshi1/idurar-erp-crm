@@ -21,7 +21,7 @@ export default function AnalyticSummaryCard({ title, tagColor, data, prefix, isL
         <div className="pad15 strong" style={{ textAlign: 'center', justifyContent: 'center' }}>
           <h3
             style={{
-              color: '#22075e',
+              color: '#61010c',
               fontSize: 'large',
               margin: '5px 0',
               textTransform: 'capitalize',

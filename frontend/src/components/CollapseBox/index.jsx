@@ -1,7 +1,7 @@
 import React from 'react';
 import { Row, Col } from 'antd';
 
-const CollapseBoxButton = ({ onChange, title }) => {
+const   CollapseBoxButton = ({ onChange, title }) => {
   return (
     <div className="collapseBoxHeader" onClick={onChange}>
       {title}
