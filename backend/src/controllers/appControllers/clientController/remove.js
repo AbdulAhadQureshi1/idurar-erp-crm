@@ -10,25 +10,25 @@ const remove = async (Model, req, res) => {
   // check if client have invoice or quotes:
   const { id } = req.params;
 
-  // first find if there alt least one quote or invoice exist corresponding to the client
-  const resultQuotes = QuoteModel.findOne({
+  // first find if there at least one quote or invoice exist corresponding to the client
+  const resultQuotes = await QuoteModel.findOne({
     client: id,
     removed: false,
   }).exec();
-  const resultInvoice = InvoiceModel.findOne({
+  const resultInvoice = await InvoiceModel.findOne({
     client: id,
     removed: false,
   }).exec();
 
   const [quotes, invoice] = await Promise.allSettled([resultQuotes, resultInvoice]);
-  if (quotes) {
+  if (quotes.value) {
     return res.status(400).json({
       success: false,
       result: null,
       message: 'Cannot delete client if client have any quote  or invoice',
     });
   }
-  if (invoice) {
+  if (invoice.value) {
     return res.status(400).json({
       success: false,
       result: null,

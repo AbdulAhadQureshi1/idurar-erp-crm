@@ -11,20 +11,13 @@ export const fields = {
   },
   name: {
     type: 'string',
-    disableForForm: true,
+    disableForForm: false,
+    required: true,
   },
-  country: {
-    type: 'country',
-    // color: 'red',
-    disableForForm: true,
-  },
-  phone: {
-    type: 'phone',
-    disableForForm: true,
-  },
-  email: {
-    type: 'email',
-    disableForForm: true,
+  "name (Arabic)": {
+    type: 'string',
+    disableForForm: false,
+    required: true,
   },
   people: {
     type: 'search',
@@ -51,5 +44,21 @@ export const fields = {
     dataIndex: ['company', 'name'],
     disableForTable: true,
     feedback: 'company',
+    required: true,
   },
+  country: {
+    type: 'country',
+    disableForForm: true,
+  },
+  email: {
+    type: 'email',
+    disableForForm: false,
+    required: true,
+  },
+  phone: {
+    type: 'phone',
+    disableForForm: false,
+    required: true,
+  },
+
 };
