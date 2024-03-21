@@ -9,6 +9,7 @@ export default function ItemRow({ field, remove, current = null }) {
   const [totalState, setTotal] = useState(undefined);
   const [price, setPrice] = useState(0);
   const [quantity, setQuantity] = useState(0);
+  const [discount, setDiscount] = useState(0);
 
   const money = useMoney();
   const updateQt = (value) => {
@@ -17,6 +18,9 @@ export default function ItemRow({ field, remove, current = null }) {
   const updatePrice = (value) => {
     setPrice(value);
   };
+  const updateDiscount = (value) => {
+    setDiscount(value);
+  }
 
   useEffect(() => {
     if (current) {
@@ -47,9 +51,9 @@ export default function ItemRow({ field, remove, current = null }) {
 
   useEffect(() => {
     const currentTotal = calculate.multiply(price, quantity);
-
-    setTotal(currentTotal);
-  }, [price, quantity]);
+    const discountedTotal = calculate.sub(currentTotal, discount);
+    setTotal(discountedTotal);
+  }, [price, quantity, discount]);
 
   return (
     <Row gutter={[12, 12]} style={{ position: 'relative' }}>
@@ -80,7 +84,7 @@ export default function ItemRow({ field, remove, current = null }) {
           <InputNumber style={{ width: '100%' }} min={0} onChange={updateQt} />
         </Form.Item>
       </Col>
-      <Col className="gutter-row" span={4}>
+      <Col className="gutter-row" span={3}>
         <Form.Item name={[field.name, 'price']} rules={[{ required: true }]}>
           <InputNumber
             className="moneyInput"
@@ -92,7 +96,19 @@ export default function ItemRow({ field, remove, current = null }) {
           />
         </Form.Item>
       </Col>
-      <Col className="gutter-row" span={5}>
+      <Col className="gutter-row" span={3}>
+        <Form.Item name={[field.name, 'discount']} rules={[{ required: true }]}>
+          <InputNumber
+            className="moneyInput"
+            onChange={updateDiscount}
+            min={0}
+            controls={false}
+            addonAfter={money.currency_position === 'after' ? money.currency_symbol : undefined}
+            addonBefore={money.currency_position === 'before' ? money.currency_symbol : undefined}
+          />
+        </Form.Item>
+      </Col>
+      <Col className="gutter-row" span={3}>
         <Form.Item name={[field.name, 'total']}>
           <Form.Item>
             <InputNumber

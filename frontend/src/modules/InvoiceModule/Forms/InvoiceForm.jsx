@@ -20,6 +20,7 @@ import { useSelector } from 'react-redux';
 import SelectAsync from '@/components/SelectAsync';
 
 import SelectCurrency from '@/components/SelectCurrency';
+import TextArea from 'antd/es/input/TextArea';
 
 export default function InvoiceForm({ subTotal = 0, current = null }) {
   const { last_invoice_number } = useSelector(selectFinanceSettings);
@@ -171,10 +172,41 @@ function LoadInvoiceForm({ subTotal = 0, current = null }) {
           </Form.Item>
         </Col>
         <Col className="gutter-row" span={10}>
-          <Form.Item label={translate('Note')} name="notes">
-            <Input />
+          <Form.Item
+            label={translate('transaction type')}
+            name="type"
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+          >
+            <Select
+              options={[
+                { value: 'nominal supply', label: translate('Nominal Supply') },
+                { value: 'export', label: translate('Export') },
+                { value: 'summary', label: translate('Summary') },
+                { value: 'others', label: translate('Others') },
+              ]}
+            ></Select>
           </Form.Item>
+          {/* <Form.Item label={translate('Note')} name="notes">
+            <Input />
+          </Form.Item> */}
         </Col>
+      </Row>
+      <Divider dashed />
+      <Row gutter={[12, 12]}>
+          <Col span={12}>
+            <Form.Item label={translate('Subject')} name="subject">
+              <Input placeholder='Let customer know what the invoice is for' />
+            </Form.Item>
+          </Col>
+          <Col span={12}>
+            <Form.Item label={translate('Note')} name="notes">
+              <Input placeholder='Add a note' />
+            </Form.Item>
+          </Col>
       </Row>
       <Divider dashed />
       <Row gutter={[12, 12]} style={{ position: 'relative' }}>
@@ -187,10 +219,13 @@ function LoadInvoiceForm({ subTotal = 0, current = null }) {
         <Col className="gutter-row" span={3}>
           <p>{translate('Quantity')}</p>{' '}
         </Col>
-        <Col className="gutter-row" span={4}>
+        <Col className="gutter-row" span={3}>
           <p>{translate('Price')}</p>
         </Col>
-        <Col className="gutter-row" span={5}>
+        <Col className="gutter-row" span={3}>
+          <p>{translate('Discount')}</p>
+        </Col>
+        <Col className="gutter-row" span={3}>
           <p>{translate('Total')}</p>
         </Col>
       </Row>
@@ -214,6 +249,19 @@ function LoadInvoiceForm({ subTotal = 0, current = null }) {
           </>
         )}
       </Form.List>
+      <Divider dashed />
+      <Row gutter={[12, 12]}>
+        <Col span={12}>
+            <Form.Item label={translate('Terms and Conditions')} name="terms">
+              <TextArea placeholder='Set your terms and conditions' />
+            </Form.Item>
+          </Col>
+          <Col span={12}>
+            <Form.Item label={translate('Customer Notes')} name="notes">
+              <TextArea placeholder='Add a note' />
+            </Form.Item>
+          </Col>
+      </Row>
       <Divider dashed />
       <div style={{ position: 'relative', width: ' 100%', float: 'right' }}>
         <Row gutter={[12, -5]}>
